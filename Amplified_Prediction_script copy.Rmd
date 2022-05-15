@@ -21,9 +21,9 @@ library(foreign)
 
 File intake.
 ```{r}
-profile <- read.table("RN7SK-rRNA-HELA/RN7SK-rRNA-HELA_RN7SK_profile.txt", header = TRUE)
-unt_mutation_counts <- read.table("RN7SK-rRNA-HELA/RN7SK-rRNA-HELA_Untreated_RN7SK_mutation_counts.txt", header = TRUE)
-mod_mutation_counts <- read.table("RN7SK-rRNA-HELA/RN7SK-rRNA-HELA_Untreated_RN7SK_mutation_counts.txt", header = TRUE)
+profile <- read.table("../../../ModSeq data submission/sample 5.8S rRNA data input and output/amplified_predictions_script INPUTS/Amplified-TRNA-Huh-5_8S_5_8_profile.txt", header = TRUE)
+unt_mutation_counts <- read.table("../../../ModSeq data submission/sample 5.8S rRNA data input and output/amplified_predictions_script INPUTS/Amplified-TRNA-Huh-5_8S_Untreated_5_8_mutation_counts.txtt", header = TRUE)
+mod_mutation_counts <- read.table("../../../ModSeq data submission/sample 5.8S rRNA data input and output/amplified_predictions_script INPUTS/Amplified-TRNA-Huh-5_8S_Modified_5_8_mutation_counts.txt", header = TRUE)
 ```
 
 We make two new columns for raw "correct" counts (unmutated).
@@ -124,7 +124,6 @@ Bind three datasets together. Then, make the cumulative dataset (cumdf) robust b
 ```{r}
 cumdf_pre <- cbind(tmp_filtered, countedmut_Mn_filtered, countedmut_untreated_filtered)
 cumdf <- cumdf_pre %>% filter(Mn_effective_depth > 0) %>% filter(Untreated_effective_depth > 0)
-view(cumdf_pre)
 ```
 
 ```{r}
