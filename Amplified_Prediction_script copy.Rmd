@@ -3,6 +3,8 @@ title: "Amplified Prediction Script"
 output: html_notebook
 ---
 
+#by Gandhar Mahadeshwar
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
