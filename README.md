@@ -28,5 +28,13 @@ These files are trained models on 18S and 28S rRNA data. They are used in Weka f
 This script takes in the four outputted scripts from Weka and outputs a single csv file with position, nucleotide type, and modification classification.
 
 #### INPUT: write the file path for the indicated input file at the indicated lines
+adenosines input: line 23
+
+cytosines input: line 24
+
+guanosines input: line 25
+
+uracils input: line 26
 
 #### OUTPUT: write the file path at the indicated lines
+final classification output CSV file: line 57
