@@ -221,15 +221,15 @@ modsq_uracils <- rep("?", length(cumdf_uracils_fin$Mn_rate))
 sars2_u <- cbind(cumdf_uracils_fin, modsq_uracils) %>% rename('Modifications'='modsq_uracils')
 #write.csv(sars2_u, file = "predict_RN7SK_uracils_amp.csv", row.names = FALSE)
 sars2_u$Modifications <- as.factor(sars2_u$Modifications)
-write.arff(sars2_u, file = "predict_RN7SK_uracils_amp_NEW.arff")
+write.arff(sars2_u, file = "predict_5_8_uracils_amp.arff")
 
-tx <- readLines("predict_RN7SK_uracils_amp_NEW.arff")
+tx <- readLines("predict_5_8_uracils_amp.arff")
 tx_line15 <- gsub(pattern = "'\\?'", replace = "none,pU,Um", x = tx[15])
 tx2 <- tx
 tx2[15] <- tx_line15
 tx3 <- gsub(pattern = "'", replace = "", x = tx2)
 
-writeLines(tx3, "predict_RN7SK_uracils_amp_NEW.arff")
+writeLines(tx3, "predict_5_8_uracils_amp.arff")
 ```
 
 Now, for cytosines
@@ -251,15 +251,15 @@ modsq_cytosines <- rep("?", length(cumdf_cytosines_fin$Mn_rate))
 sars2_c <- cbind(cumdf_cytosines_fin, modsq_cytosines) %>% rename('Modifications'='modsq_cytosines')
 #write.csv(sars2_c, file = "predict_RN7SK_cytosines_amp.csv", row.names = FALSE)
 sars2_c$Modifications <- as.factor(sars2_c$Modifications)
-write.arff(sars2_c, file = "predict_RN7SK_cytosines_amp_NEW.arff")
+write.arff(sars2_c, file = "predict_5_8_cytosines_amp.arff")
 
-tx <- readLines("predict_RN7SK_cytosines_amp_NEW.arff")
+tx <- readLines("predict_5_8_cytosines_amp.arff")
 tx_line15 <- gsub(pattern = "'\\?'", replace = "none,Cm", x = tx[15])
 tx2 <- tx
 tx2[15] <- tx_line15
 tx3 <- gsub(pattern = "'", replace = "", x = tx2)
 
-writeLines(tx3, "predict_RN7SK_cytosines_amp_NEW.arff")
+writeLines(tx3, "predict_5_8_cytosines_amp.arff")
 ```
 
 Now, for guanines
@@ -281,15 +281,15 @@ modsq_guanine <- rep("?", length(cumdf_guanine_fin$Mn_rate))
 sars2_g <- cbind(cumdf_guanine_fin, modsq_guanine) %>% rename('Modifications'='modsq_guanine')
 
 sars2_g$Modifications <- as.factor(sars2_g$Modifications)
-write.arff(sars2_g, file = "predict_RN7SK_guanine_amp_NEW.arff")
+write.arff(sars2_g, file = "predict_5_8_guanine_amp.arff")
 
-tx <- readLines("predict_RN7SK_guanine_amp_NEW.arff")
+tx <- readLines("predict_5_8_guanine_amp.arff")
 tx_line15 <- gsub(pattern = "'\\?'", replace = "none,Gm", x = tx[15])
 tx2 <- tx
 tx2[15] <- tx_line15
 tx3 <- gsub(pattern = "'", replace = "", x = tx2)
 
-writeLines(tx3, "predict_RN7SK_guanine_amp_NEW.arff")
+writeLines(tx3, "predict_5_8_guanine_amp.arff")
 ```
 
 Now, for adenines
@@ -311,14 +311,13 @@ modsq_adenine <- rep("?", length(cumdf_adenine_fin$Mn_rate))
 sars2_a <- cbind(cumdf_adenine_fin, modsq_adenine) %>% rename('Modifications'='modsq_adenine')
 sars2_a$Modifications <- as.factor(sars2_a$Modifications)
 
-write.arff(sars2_a, file = "predict_RN7SK_adenines_amp_NEW.arff")
+write.arff(sars2_a, file = "predict_5_8_adenines_amp.arff")
 
-tx <- readLines("predict_RN7SK_adenines_amp_NEW.arff")
+tx <- readLines("predict_5_8_adenines_amp.arff")
 tx_line15 <- gsub(pattern = "'\\?'", replace = "none,Am", x = tx[15])
 tx2 <- tx
 tx2[15] <- tx_line15
 tx3 <- gsub(pattern = "'", replace = "", x = tx2)
 
-writeLines(tx3, "predict_RN7SK_adenines_amp_NEW.arff")
+writeLines(tx3, "predict_5_8_adenines_amp.arff")
 ```
-
