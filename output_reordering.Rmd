@@ -3,21 +3,49 @@ title: "Output Reordering script"
 output: html_notebook
 ---
 
-#by Gandhar Mahadeshwar
+# by Gandhar Mahadeshwar
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 ```{r}
-pred_As <- cbind(cumdf_adenine_nuc,read.arff("prac_RN7SK_adenine_amppred.arff") %>% 
+library(readxl)
+library(MASS)
+library(tidyverse)
+library(dplyr)
+library(grid)
+library(RWeka)
+library(foreign)
+```
+
+```{r}
+As <- read.arff("../Desktop/MB&B471 Notes/Amplified Data/prac_RN7SK_adenine_amppred.arff")
+Cs <- read.arff("../Desktop/MB&B471 Notes/Amplified Data/prac_RN7SK_cytosine_amppred.arff")
+Gs <- read.arff("../Desktop/MB&B471 Notes/Amplified Data/prac_RN7SK_guanine_amppred.arff")
+Us <- read.arff("../Desktop/MB&B471 Notes/Amplified Data/prac_RN7SK_uracil_amppred.arff")
+
+#adenines:total Mn2+ mutation rate above 0.5 were classified as a “m1A”
+wc_cutoff_A <- which(As$Mn_rate > 0.5)
+
+#uridines:total Mn2+ mutation rate above 0.5 were classified as a “m3U or m1acp3Y”
+wc_cutoff_U <- which(Us$Mn_rate > 0.5)
+
+#guanosines: total Mn2+ mutation rate above 0.05 and total Mg2+ mutation rate above 0.0015 were classified as “m7G”
+wc_cutoff_G <- which(Gs$Mn_rate > 0.05 && tmpg$Untreated_rate > 0.0015)
+
+pred_As <- cbind(cumdf_adenine_nuc, As %>% 
                    select(starts_with("predict"))) %>% rename(cumdf_nuc = cumdf_adenine_nuc)
 pred_As$cumdf_nuc[wc_cutoff_A] <- "m1A"
 
-pred_Cs <- cbind(cumdf_cytosines_nuc,read.arff("prac_RN7SK_cytosine_amppred.arff") %>%
+pred_Cs <- cbind(cumdf_cytosines_nuc, Cs %>%
                    select(starts_with("predict"))) %>% rename(cumdf_nuc = cumdf_cytosines_nuc)
 
-pred_Gs <- cbind(cumdf_guanine_nuc,read.arff("prac_RN7SK_guanine_amppred.arff") %>% 
+pred_Gs <- cbind(cumdf_guanine_nuc, Gs %>% 
                    select(starts_with("predict"))) %>% rename(cumdf_nuc = cumdf_guanine_nuc)
 pred_Gs$cumdf_nuc[wc_cutoff_G] <- "m7G"
 
-pred_Us <- cbind(cumdf_uracils_nuc,read.arff("prac_RN7SK_uracil_amppred.arff") %>% 
+pred_Us <- cbind(cumdf_uracils_nuc, Us %>% 
                    select(starts_with("predict"))) %>% rename(cumdf_nuc = cumdf_uracils_nuc)
 pred_Us$cumdf_nuc[wc_cutoff_U] <- "m3U or m1acp3Y"
 ```
