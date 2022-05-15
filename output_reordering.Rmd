@@ -20,10 +20,16 @@ library(foreign)
 ```
 
 ```{r}
-As <- read.arff("../Desktop/MB&B471 Notes/Amplified Data/prac_RN7SK_adenine_amppred.arff")
-Cs <- read.arff("../Desktop/MB&B471 Notes/Amplified Data/prac_RN7SK_cytosine_amppred.arff")
-Gs <- read.arff("../Desktop/MB&B471 Notes/Amplified Data/prac_RN7SK_guanine_amppred.arff")
-Us <- read.arff("../Desktop/MB&B471 Notes/Amplified Data/prac_RN7SK_uracil_amppred.arff")
+As <- read.arff("../ModSeq data submission/sample 5.8S rRNA data input and output/prac_5_8_adenine_amppred.arff")
+Cs <- read.arff("../ModSeq data submission/sample 5.8S rRNA data input and output/prac_5_8_cytosine_amppred_acc.arff")
+Gs <- read.arff("../ModSeq data submission/sample 5.8S rRNA data input and output/prac_5_8_guanine_amppred_acc.arff")
+Us <- read.arff("../ModSeq data submission/sample 5.8S rRNA data input and output/prac_5_8_uracil_amppred_acc.arff")
+
+profile <- read.table("../ModSeq data submission/sample 5.8S rRNA data input and output/Amplified-TRNA-Huh-5_8S_5_8_profile.txt", header = TRUE)
+cumdf_adenine_nuc <- (profile %>% filter(Sequence == "A"))$Nucleotide
+cumdf_cytosines_nuc <- (profile %>% filter(Sequence == "C"))$Nucleotide
+cumdf_guanine_nuc <- (profile %>% filter(Sequence == "G"))$Nucleotide
+cumdf_uracils_nuc <- (profile %>% filter(Sequence == "U"))$Nucleotide
 
 #adenines:total Mn2+ mutation rate above 0.5 were classified as a “m1A”
 wc_cutoff_A <- which(As$Mn_rate > 0.5)
@@ -54,5 +60,5 @@ pred_Us$cumdf_nuc[wc_cutoff_U] <- "m3U or m1acp3Y"
 unordered <- rbind(pred_As, pred_Cs, pred_Gs, pred_Us)
 #view(unordered)
 newpred <- unordered[order(unordered$cumdf_nuc),]
-write.csv(newpred, file = "RN7SKamp_predictions_acc", row.names = FALSE)
+write.csv(newpred, file = "../ModSeq data submission/sample 5.8S rRNA data input and output/5_8_sample_predictions.csv", row.names = FALSE)
 ```
