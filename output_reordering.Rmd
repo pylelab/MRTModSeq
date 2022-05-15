@@ -1,8 +1,9 @@
 ---
 title: "Output Reordering script"
-author: "Gandhar Mahadeshwar"
 output: html_notebook
 ---
+
+#by Gandhar Mahadeshwar
 
 ```{r}
 pred_As <- cbind(cumdf_adenine_nuc,read.arff("prac_RN7SK_adenine_amppred.arff") %>% 
