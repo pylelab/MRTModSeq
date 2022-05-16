@@ -224,10 +224,14 @@ sars2_u$Modifications <- as.factor(sars2_u$Modifications)
 write.arff(sars2_u, file = "predict_5_8_uracils_amp.arff")
 
 tx <- readLines("predict_5_8_uracils_amp.arff")
-tx_line15 <- gsub(pattern = "'\\?'", replace = "none,pU,Um", x = tx[15])
-tx2 <- tx
-tx2[15] <- tx_line15
-tx3 <- gsub(pattern = "'", replace = "", x = tx2)
+for (i in 1:length(tx)) {
+  if (substr(tx[i],1,24)== "@attribute Modifications") {
+    tx_line15 <- gsub(pattern = "'\\?'", replace = "none,pU,Um", x = tx[i])
+    tx[i] <- tx_line15
+    break
+  }
+}
+tx3 <- gsub(pattern = "'", replace = "", x = tx)
 
 writeLines(tx3, "predict_5_8_uracils_amp.arff")
 #```
@@ -254,10 +258,14 @@ sars2_c$Modifications <- as.factor(sars2_c$Modifications)
 write.arff(sars2_c, file = "predict_5_8_cytosines_amp.arff")
 
 tx <- readLines("predict_5_8_cytosines_amp.arff")
-tx_line15 <- gsub(pattern = "'\\?'", replace = "none,Cm", x = tx[15])
-tx2 <- tx
-tx2[15] <- tx_line15
-tx3 <- gsub(pattern = "'", replace = "", x = tx2)
+for (i in 1:length(tx)) {
+  if (substr(tx[i],1,24)== "@attribute Modifications") {
+    tx_line15 <- gsub(pattern = "'\\?'", replace = "none,Cm", x = tx[i])
+    tx[i] <- tx_line15
+    break
+  }
+}
+tx3 <- gsub(pattern = "'", replace = "", x = tx)
 
 writeLines(tx3, "predict_5_8_cytosines_amp.arff")
 #```
@@ -284,10 +292,14 @@ sars2_g$Modifications <- as.factor(sars2_g$Modifications)
 write.arff(sars2_g, file = "predict_5_8_guanine_amp.arff")
 
 tx <- readLines("predict_5_8_guanine_amp.arff")
-tx_line15 <- gsub(pattern = "'\\?'", replace = "none,Gm", x = tx[15])
-tx2 <- tx
-tx2[15] <- tx_line15
-tx3 <- gsub(pattern = "'", replace = "", x = tx2)
+for (i in 1:length(tx)) {
+  if (substr(tx[i],1,24)== "@attribute Modifications") {
+    tx_line15 <- gsub(pattern = "'\\?'", replace = "none,Gm", x = tx[i])
+    tx[i] <- tx_line15
+    break
+  }
+}
+tx3 <- gsub(pattern = "'", replace = "", x = tx)
 
 writeLines(tx3, "predict_5_8_guanine_amp.arff")
 #```
@@ -314,10 +326,14 @@ sars2_a$Modifications <- as.factor(sars2_a$Modifications)
 write.arff(sars2_a, file = "predict_5_8_adenines_amp.arff")
 
 tx <- readLines("predict_5_8_adenines_amp.arff")
-tx_line15 <- gsub(pattern = "'\\?'", replace = "none,Am", x = tx[15])
-tx2 <- tx
-tx2[15] <- tx_line15
-tx3 <- gsub(pattern = "'", replace = "", x = tx2)
+for (i in 1:length(tx)) {
+  if (substr(tx[i],1,24)== "@attribute Modifications") {
+    tx_line15 <- gsub(pattern = "'\\?'", replace = "none,Am", x = tx[i])
+    tx[i] <- tx_line15
+    break
+  }
+}
+tx3 <- gsub(pattern = "'", replace = "", x = tx)
 
 writeLines(tx3, "predict_5_8_adenines_amp.arff")
 #```
