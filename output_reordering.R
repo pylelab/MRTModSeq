@@ -2,9 +2,9 @@
 
 args=commandArgs(TRUE)
 if (length(args)<1){
-  cat("adenosin_predictions.arff cytidine_predictions.arff guanosine_predictions.arff uridine_predictions.arff profile.txt\n")
+  cat("adenosine_predictions.arff cytidine_predictions.arff guanosine_predictions.arff uridine_predictions.arff profile.txt\n")
   cat("\nInput:\n")
-  cat("    adenosine_predictions.arff          - WEKA format feature file with classifications for A\n")
+  cat("    adenosine_predictions.arff         - WEKA format feature file with classifications for A\n")
   cat("    cytidine_predictions.arff          - WEKA format feature file with classifications for A\n")
   cat("    guanosine_predictions.arff         - WEKA format feature file with classifications for A\n")
   cat("    uridine_predictions.arff           - WEKA format feature file with classifications for A\n")
