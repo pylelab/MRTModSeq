@@ -260,7 +260,7 @@ write.arff(sars2_c, file = "predict_5_8_cytosines_amp.arff")
 tx <- readLines("predict_5_8_cytosines_amp.arff")
 for (i in 1:length(tx)) {
   if (substr(tx[i],1,24)== "@attribute Modifications") {
-    tx_line15 <- gsub(pattern = "'\\?'", replace = "none,Cm", x = tx[i])
+    tx_line15 <- gsub(pattern = "'\\?'", replace = "Cm,none", x = tx[i])
     tx[i] <- tx_line15
     break
   }
@@ -294,7 +294,7 @@ write.arff(sars2_g, file = "predict_5_8_guanine_amp.arff")
 tx <- readLines("predict_5_8_guanine_amp.arff")
 for (i in 1:length(tx)) {
   if (substr(tx[i],1,24)== "@attribute Modifications") {
-    tx_line15 <- gsub(pattern = "'\\?'", replace = "none,Gm", x = tx[i])
+    tx_line15 <- gsub(pattern = "'\\?'", replace = "Gm,none", x = tx[i])
     tx[i] <- tx_line15
     break
   }
@@ -328,7 +328,7 @@ write.arff(sars2_a, file = "predict_5_8_adenines_amp.arff")
 tx <- readLines("predict_5_8_adenines_amp.arff")
 for (i in 1:length(tx)) {
   if (substr(tx[i],1,24)== "@attribute Modifications") {
-    tx_line15 <- gsub(pattern = "'\\?'", replace = "none,Am", x = tx[i])
+    tx_line15 <- gsub(pattern = "'\\?'", replace = "Am,none", x = tx[i])
     tx[i] <- tx_line15
     break
   }
