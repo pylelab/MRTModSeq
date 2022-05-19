@@ -52,7 +52,7 @@ If using the .R script on command line, download and navigate to pylelab/MRTModS
 
 mkdir sample_outputs
 
-cd sample_outputs \n
+cd sample_outputs
 
 Rscript ../Amplified_Prediction_script.R "../sample_5.8S_rRNA_data_input_and_output/amplified_predictions_script_INPUTS/Amplified-TRNA-Huh-5_8S_5_8_profile.txt" "../sample_5.8S_rRNA_data_input_and_output/amplified_predictions_script_INPUTS/Amplified-TRNA-Huh-5_8S_Untreated_5_8_mutation_counts.txt" "../sample_5.8S_rRNA_data_input_and_output/amplified_predictions_script_INPUTS/Amplified-TRNA-Huh-5_8S_Modified_5_8_mutation_counts.txt"
 
