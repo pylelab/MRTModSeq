@@ -1,6 +1,8 @@
 # MRT-ModSeq
 RNA modification detection with Marathon RT
 
+From sequencing data derived from our divalent cation strategy, we use this computational pipeline to profile chemical modifications on the RNA transcript of interest.
+
 ## Amplified prediction script
 This script takes in three text files produced by Shapemapper2 (using the "--counted" flag) after processing sequencing data from a ModSeq experiment. The three files are: profile file (containing mutation rates from both Mg and Mn experimental samples), 'untreated' file (mutation counts from the Mg sample data), and 'modified' file (mutation counts from the Mn sample data). 
 The outputs of this script are four arff files - one for each nucleotide type - primed for input into Weka.
