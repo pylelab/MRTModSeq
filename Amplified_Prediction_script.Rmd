@@ -11,12 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-library(readxl)
-library(MASS)
-library(tidyverse)
 library(dplyr)
-library(grid)
-library(RWeka)
 library(foreign)
 ```
 
