@@ -18,7 +18,7 @@ library(foreign)
 File intake.
 ```{r}
 profile <- read.table("../../../ModSeq data submission/sample 5.8S rRNA data input and output/amplified_predictions_script INPUTS/Amplified-TRNA-Huh-5_8S_5_8_profile.txt", header = TRUE)
-unt_mutation_counts <- read.table("../../../ModSeq data submission/sample 5.8S rRNA data input and output/amplified_predictions_script INPUTS/Amplified-TRNA-Huh-5_8S_Untreated_5_8_mutation_counts.txtt", header = TRUE)
+unt_mutation_counts <- read.table("../../../ModSeq data submission/sample 5.8S rRNA data input and output/amplified_predictions_script INPUTS/Amplified-TRNA-Huh-5_8S_Untreated_5_8_mutation_counts.txt", header = TRUE)
 mod_mutation_counts <- read.table("../../../ModSeq data submission/sample 5.8S rRNA data input and output/amplified_predictions_script INPUTS/Amplified-TRNA-Huh-5_8S_Modified_5_8_mutation_counts.txt", header = TRUE)
 ```
 
