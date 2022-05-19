@@ -49,9 +49,13 @@ shapemapper --nproc 8 --output-counted-mutations --name [job name] --target [ali
 ```
 2) the output of the above shapemapper run is three files as follows: 1) profile, 2) 'untreated' file (Mg2+) and 3) 'modified' file (Mn2+). These constitute the inputs for the amplified prediction script.
 If using the .R script on command line, download and navigate to pylelab/MRTModSeq directory and run the following (example shown with sample data):
-mkdir sample_outputs \n
+
+mkdir sample_outputs
+
 cd sample_outputs \n
+
 Rscript ../Amplified_Prediction_script.R "../sample_5.8S_rRNA_data_input_and_output/amplified_predictions_script_INPUTS/Amplified-TRNA-Huh-5_8S_5_8_profile.txt" "../sample_5.8S_rRNA_data_input_and_output/amplified_predictions_script_INPUTS/Amplified-TRNA-Huh-5_8S_Untreated_5_8_mutation_counts.txt" "../sample_5.8S_rRNA_data_input_and_output/amplified_predictions_script_INPUTS/Amplified-TRNA-Huh-5_8S_Modified_5_8_mutation_counts.txt"
+
 3) the output of the amplified prediction script is four arff files that, along with the model files, constitute the inputs for the Weka step.
 
 ### Using the WEKA GUI
@@ -63,7 +67,11 @@ Rscript ../Amplified_Prediction_script.R "../sample_5.8S_rRNA_data_input_and_out
 9) Write click results tab on the left sidebar and click "Visualize classifier errors."
 10) Save the file in the resultant window. This saves as an arff file.
 11) Repeat the above steps for each nucleotide type. This will yield four output arff files that constitute the input for the 'output reordering' script. If using command line, run the following (example with sample data):
+
 mkdir ordered_predictions
+
 cd ordered_predictions
+
 Rscript ../output_reordering.R "../sample_5.8S_rRNA_data_input_and_output/output_reordering_script_INPUTS/prac_5_8_adenine_amppred.arff" "../sample_5.8S_rRNA_data_input_and_output/output_reordering_script_INPUTS/prac_5_8_cytosine_amppred_acc.arff" "../sample_5.8S_rRNA_data_input_and_output/output_reordering_script_INPUTS/prac_5_8_guanine_amppred_acc.arff" "../sample_5.8S_rRNA_data_input_and_output/output_reordering_script_INPUTS/prac_5_8_uracil_amppred_acc.arff" "../sample_5.8S_rRNA_data_input_and_output/amplified_predictions_script_INPUTS/Amplified-TRNA-Huh-5_8S_5_8_profile.txt"
+
 12) the output for the ‘output reordering’ script is a single csv file with nucleotide positions and the predicted modification status.
