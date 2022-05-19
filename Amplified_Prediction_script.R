@@ -1,44 +1,41 @@
----
-title: "Amplified Prediction Script"
-author: "Gandhar Mahadeshwar"
-output: html_notebook
----
+#!/usr/bin/env Rscript
+args=commandArgs(TRUE)
+if (length(args)<1){
+    cat("Amplified_Prediction_script.R profile.txt untreated_counts.txt modified_counts.txt\n")
+    cat("\nInput:\n")
+    cat("    profile.txt          - profile file from ShapeMapper --counted output\n")
+    cat("    untreated_counts.txt - Mg2+ mutation file from ShapMapper --counted output\n")  
+    cat("    modified_counts.txt  - Mn2+ mutation file from ShapMapper --counted output\n")  
+    cat("\nOutput:\n")
+    cat("    predict_5_8_adenines_amp.arff  - WEKA format feature file for A\n")
+    cat("    predict_5_8_cytosines_amp.arff - WEKA format feature file for C\n")
+    cat("    predict_5_8_guanine_amp.arff   - WEKA format feature file for G\n")
+    cat("    predict_5_8_uracils_amp.arff   - WEKA format feature file for U\n")
+    quit()
+}
 
-#by Gandhar Mahadeshwar
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-```{r}
-library(readxl)
-library(MASS)
-library(tidyverse)
-library(dplyr)
-library(grid)
-library(RWeka)
-library(dplyr)
+#```{r}
+library(dplyr,warn.conflicts = FALSE)
 library(foreign)
-```
+#```
 
-File intake.
-```{r}
-profile <- read.table("../../../ModSeq data submission/sample 5.8S rRNA data input and output/amplified_predictions_script INPUTS/Amplified-TRNA-Huh-5_8S_5_8_profile.txt", header = TRUE)
-unt_mutation_counts <- read.table("../../../ModSeq data submission/sample 5.8S rRNA data input and output/amplified_predictions_script INPUTS/Amplified-TRNA-Huh-5_8S_Untreated_5_8_mutation_counts.txtt", header = TRUE)
-unt_mutation_counts <- read.table("../../../ModSeq data submission/sample 5.8S rRNA data input and output/amplified_predictions_script INPUTS/Amplified-TRNA-Huh-5_8S_Untreated_5_8_mutation_counts.txt", header = TRUE)
-mod_mutation_counts <- read.table("../../../ModSeq data submission/sample 5.8S rRNA data input and output/amplified_predictions_script INPUTS/Amplified-TRNA-Huh-5_8S_Modified_5_8_mutation_counts.txt", header = TRUE)
-```
+#File intake.
+#```{r}
+profile <- read.table(args[1], header = TRUE)
+unt_mutation_counts <- read.table(args[2], header = TRUE)
+mod_mutation_counts <- read.table(args[3], header = TRUE)
+#```
 
-We make two new columns for raw "correct" counts (unmutated).
-```{r}
+#We make two new columns for raw "correct" counts (unmutated).
+#```{r}
 tmp_first <- profile %>% mutate(
   Modified_correct = Modified_effective_depth - Modified_mutations, 
   Untreated_correct = Untreated_effective_depth - Untreated_mutations
 )
-```
+#```
 
-Select a few columns, rename others.
-```{r}
+#Select a few columns, rename others.
+#```{r}
 tmp_filtered <- tmp_first %>% select(-ends_with("mapped_depth")) %>% select(-ends_with("read_depth")) %>% 
   select(-starts_with("Denatured")) %>% select(-ends_with("profile")) %>% select(-ends_with("err")) %>%
   dplyr::rename(
@@ -47,10 +44,10 @@ tmp_filtered <- tmp_first %>% select(-ends_with("mapped_depth")) %>% select(-end
     Mn_rate = Modified_rate,
     Mn_correct = Modified_correct
     )
-```
+#```
 
 
-```{r}
+#```{r}
 mut_difference_table <- tmp_filtered %>% mutate(
   mut_difference = pmax((Mn_rate - Untreated_rate),0)) %>% select(c(1,11))
 
@@ -59,11 +56,11 @@ mut_difference_table <- tmp_filtered %>% mutate(
 # plot(tmp_filtered$Mn_rate, tmp_filtered$Untreated_rate, xlim = c(0,0.08), ylim = c(0,0.08))
 # 
 # barplot(mut_difference_table$mut_difference, names.arg = mut_difference_table$Nucleotide)
-```
+#```
 
 
-Now, we look at the marginal mut rates file, calculate rates of certain marginal rates occurring. Also more column renaming.
-```{r}
+#Now, we look at the marginal mut rates file, calculate rates of certain marginal rates occurring. Also more column renaming.
+#```{r}
 ratesfun <- function(x,y) {
   x / y
 }
@@ -100,11 +97,11 @@ countedmut_Mn_filtered <- mod_mutation_counts %>%
     'Mn_complex_insertion' = 'complex_insertion'
   )
 
-countedmut_Mn_filtered
-```
+#countedmut_Mn_filtered
+#```
 
-Do the same for the untreated marginal mutation rates.
-```{r}
+#Do the same for the untreated marginal mutation rates.
+#```{r}
 countedmut_untreated_filtered <- unt_mutation_counts %>% 
   mutate_all( ~ ratesfun(.,effective_depth)) %>%
   select(-ends_with("depth")) %>%
@@ -120,16 +117,16 @@ countedmut_untreated_filtered <- unt_mutation_counts %>%
     '-C' = 'X.C'
   )
 
-countedmut_untreated_filtered
-```
+#countedmut_untreated_filtered
+#```
 
-Bind three datasets together. Then, make the cumulative dataset (cumdf) robust by filtering.
-```{r}
+#Bind three datasets together. Then, make the cumulative dataset (cumdf) robust by filtering.
+#```{r}
 cumdf_pre <- cbind(tmp_filtered, countedmut_Mn_filtered, countedmut_untreated_filtered)
 cumdf <- cumdf_pre %>% filter(Mn_effective_depth > 0) %>% filter(Untreated_effective_depth > 0)
-```
+#```
 
-```{r}
+#```{r}
 cumdf$`Mn_rate` <- as.numeric(cumdf$`Mn_rate`)
 
 cumdf$`Mn_T-` <- cumdf$`Mn_T-` / cumdf$`Mn_rate`
@@ -180,15 +177,15 @@ is.nan.data.frame <- function(x)
 do.call(cbind, lapply(x, is.nan))
 
 cumdf[is.nan(cumdf)] <- 0
-cumdf
+#cumdf
 
 #cumdf <- cumdf[-c(which(cumdf$`TC` > 5)), ]
 #cumdf_uracils_testing.mut <- cumdf_uracils_testing.mut[-c(which(cumdf_uracils_testing.mut$`TA` > 5)), ]
 #cumdf_uracils_testing.mut <- cumdf_uracils_testing.mut[-c(which(cumdf_uracils_testing.mut$`TG` > 5)), ]
-```
+#```
 
-Separate into four datasets by nucleotide type.
-```{r}
+#Separate into four datasets by nucleotide type.
+#```{r}
 tmpa <- cumdf %>% filter(Sequence == 'A')
 #view(tmpa)
 tmpu <- cumdf %>% filter(Sequence == 'U')
@@ -203,10 +200,10 @@ wc_cutoff_U <- which(tmpu$Mn_rate > 0.5)
 
 #guanosines: total Mn2+ mutation rate above 0.05 and total Mg2+ mutation rate above 0.0015 were classified as “m7G”
 wc_cutoff_G <- which(tmpg$Mn_rate > 0.05 && tmpg$Untreated_rate > 0.0015)
-```
+#```
 
-Uracils final prediction set
-```{r}
+#Uracils final prediction set
+#```{r}
 cumdf_uracils <- cumdf %>% filter(Sequence == 'U') %>% select(-('Mn_-T')) %>% select(-starts_with('Mn_A')) %>% 
   select(-starts_with('Mn_C')) %>% select(-starts_with('Mn_G')) %>% select(-('-T')) %>%
   select(-starts_with('A')) %>% select(-starts_with('C')) %>% select(-starts_with('G')) %>%
@@ -227,16 +224,20 @@ sars2_u$Modifications <- as.factor(sars2_u$Modifications)
 write.arff(sars2_u, file = "predict_5_8_uracils_amp.arff")
 
 tx <- readLines("predict_5_8_uracils_amp.arff")
-tx_line15 <- gsub(pattern = "'\\?'", replace = "none,pU,Um", x = tx[15])
-tx2 <- tx
-tx2[15] <- tx_line15
-tx3 <- gsub(pattern = "'", replace = "", x = tx2)
+for (i in 1:length(tx)) {
+  if (substr(tx[i],1,24)== "@attribute Modifications") {
+    tx_line15 <- gsub(pattern = "'\\?'", replace = "none,pU,Um", x = tx[i])
+    tx[i] <- tx_line15
+    break
+  }
+}
+tx3 <- gsub(pattern = "'", replace = "", x = tx)
 
 writeLines(tx3, "predict_5_8_uracils_amp.arff")
-```
+#```
 
-Now, for cytosines
-```{r}
+#Now, for cytosines
+#```{r}
 cumdf_cytosines <- cumdf %>% filter(Sequence == 'C') %>% select(-('Mn_-C')) %>% select(-starts_with('Mn_A')) %>% 
   select(-starts_with('Mn_T')) %>% select(-starts_with('Mn_G')) %>% select(-('-C')) %>%
   select(-starts_with('A')) %>% select(-starts_with('T')) %>% select(-starts_with('G')) %>%
@@ -257,16 +258,20 @@ sars2_c$Modifications <- as.factor(sars2_c$Modifications)
 write.arff(sars2_c, file = "predict_5_8_cytosines_amp.arff")
 
 tx <- readLines("predict_5_8_cytosines_amp.arff")
-tx_line15 <- gsub(pattern = "'\\?'", replace = "none,Cm", x = tx[15])
-tx2 <- tx
-tx2[15] <- tx_line15
-tx3 <- gsub(pattern = "'", replace = "", x = tx2)
+for (i in 1:length(tx)) {
+  if (substr(tx[i],1,24)== "@attribute Modifications") {
+    tx_line15 <- gsub(pattern = "'\\?'", replace = "none,Cm", x = tx[i])
+    tx[i] <- tx_line15
+    break
+  }
+}
+tx3 <- gsub(pattern = "'", replace = "", x = tx)
 
 writeLines(tx3, "predict_5_8_cytosines_amp.arff")
-```
+#```
 
-Now, for guanines
-```{r}
+#Now, for guanines
+#```{r}
 cumdf_guanine <- cumdf %>% filter(Sequence == 'G') %>% select(-('Mn_-G')) %>% select(-starts_with('Mn_A')) %>% 
   select(-starts_with('Mn_T')) %>% select(-starts_with('Mn_C')) %>% select(-('-G')) %>%
   select(-starts_with('A')) %>% select(-starts_with('T')) %>% select(-starts_with('C')) %>%
@@ -287,16 +292,20 @@ sars2_g$Modifications <- as.factor(sars2_g$Modifications)
 write.arff(sars2_g, file = "predict_5_8_guanine_amp.arff")
 
 tx <- readLines("predict_5_8_guanine_amp.arff")
-tx_line15 <- gsub(pattern = "'\\?'", replace = "none,Gm", x = tx[15])
-tx2 <- tx
-tx2[15] <- tx_line15
-tx3 <- gsub(pattern = "'", replace = "", x = tx2)
+for (i in 1:length(tx)) {
+  if (substr(tx[i],1,24)== "@attribute Modifications") {
+    tx_line15 <- gsub(pattern = "'\\?'", replace = "none,Gm", x = tx[i])
+    tx[i] <- tx_line15
+    break
+  }
+}
+tx3 <- gsub(pattern = "'", replace = "", x = tx)
 
 writeLines(tx3, "predict_5_8_guanine_amp.arff")
-```
+#```
 
-Now, for adenines
-```{r}
+#Now, for adenines
+#```{r}
 cumdf_adenine <- cumdf %>% filter(Sequence == 'A') %>% select(-('Mn_-A')) %>% select(-starts_with('Mn_G')) %>% 
   select(-starts_with('Mn_T')) %>% select(-starts_with('Mn_C')) %>% select(-('-A')) %>%
   select(-starts_with('G')) %>% select(-starts_with('T')) %>% select(-starts_with('C')) %>%
@@ -317,10 +326,14 @@ sars2_a$Modifications <- as.factor(sars2_a$Modifications)
 write.arff(sars2_a, file = "predict_5_8_adenines_amp.arff")
 
 tx <- readLines("predict_5_8_adenines_amp.arff")
-tx_line15 <- gsub(pattern = "'\\?'", replace = "none,Am", x = tx[15])
-tx2 <- tx
-tx2[15] <- tx_line15
-tx3 <- gsub(pattern = "'", replace = "", x = tx2)
+for (i in 1:length(tx)) {
+  if (substr(tx[i],1,24)== "@attribute Modifications") {
+    tx_line15 <- gsub(pattern = "'\\?'", replace = "none,Am", x = tx[i])
+    tx[i] <- tx_line15
+    break
+  }
+}
+tx3 <- gsub(pattern = "'", replace = "", x = tx)
 
 writeLines(tx3, "predict_5_8_adenines_amp.arff")
-```
+#```
