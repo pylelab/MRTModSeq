@@ -49,8 +49,8 @@ shapemapper --nproc 8 --output-counted-mutations --name [job name] --target [ali
 ```
 2) the output of the above shapemapper run is three files as follows: 1) profile, 2) 'untreated' file (Mg2+) and 3) 'modified' file (Mn2+). These constitute the inputs for the amplified prediction script.
 If using the .R script on command line, download and navigate to pylelab/MRTModSeq directory and run the following (example shown with sample data):
-mkdir sample_outputs
-cd sample_outputs
+mkdir sample_outputs \n
+cd sample_outputs \n
 Rscript ../Amplified_Prediction_script.R "../sample_5.8S_rRNA_data_input_and_output/amplified_predictions_script_INPUTS/Amplified-TRNA-Huh-5_8S_5_8_profile.txt" "../sample_5.8S_rRNA_data_input_and_output/amplified_predictions_script_INPUTS/Amplified-TRNA-Huh-5_8S_Untreated_5_8_mutation_counts.txt" "../sample_5.8S_rRNA_data_input_and_output/amplified_predictions_script_INPUTS/Amplified-TRNA-Huh-5_8S_Modified_5_8_mutation_counts.txt"
 3) the output of the amplified prediction script is four arff files that, along with the model files, constitute the inputs for the Weka step.
 
