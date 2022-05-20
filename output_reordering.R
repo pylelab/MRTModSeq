@@ -50,4 +50,6 @@ pred_Us$cumdf_nuc[wc_cutoff_U] <- "m3U or m1acp3Y"
 
 unordered <- rbind(pred_As, pred_Cs, pred_Gs, pred_Us)
 newpred <- unordered[order(as.numeric(unordered$cumdf_nuc)),]
+newpred <- newpred %>% rename(Nucleotide = 'seq') %>% rename(Position = 'cumdf_nuc') %>% rename('Prediction Margin' = 'prediction margin') %>%
+  rename ('Predicted Modifications' = 'predicted Modifications')
 write.csv(newpred, file = "5_8_sample_predictions.csv", row.names = FALSE)
