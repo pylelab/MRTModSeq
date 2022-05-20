@@ -49,5 +49,5 @@ pred_Us$cumdf_nuc[wc_cutoff_U] <- "m3U or m1acp3Y"
 
 
 unordered <- rbind(pred_As, pred_Cs, pred_Gs, pred_Us)
-newpred <- unordered[order(unordered$cumdf_nuc),]
+newpred <- unordered[order(as.numeric(unordered$cumdf_nuc)),]
 write.csv(newpred, file = "5_8_sample_predictions.csv", row.names = FALSE)
