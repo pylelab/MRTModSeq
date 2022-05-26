@@ -54,7 +54,7 @@ mkdir sample_outputs
 
 cd sample_outputs
 
-Rscript ../Amplified_Prediction_script.R "../sample_5.8S_rRNA_data_input_and_output/amplified_predictions_script_INPUTS/Amplified-TRNA-Huh-5_8S_5_8_profile.txt" "../sample_5.8S_rRNA_data_input_and_output/amplified_predictions_script_INPUTS/Amplified-TRNA-Huh-5_8S_Untreated_5_8_mutation_counts.txt" "../sample_5.8S_rRNA_data_input_and_output/amplified_predictions_script_INPUTS/Amplified-TRNA-Huh-5_8S_Modified_5_8_mutation_counts.txt"
+Rscript ../Amplified_Prediction_script.R "../sample_ecoli_23s_input_and_output/amplified_predictions_script_INPUTS/1mg2mn_ecoli_23s_ecoli_23s_april23_2021_profile.txt" "../sample_ecoli_23s_input_and_output/amplified_predictions_script_INPUTS/1mg2mn_ecoli_23s_Untreated_ecoli_23s_april23_2021_mutation_counts.txt" "../sample_ecoli_23s_input_and_output/amplified_predictions_script_INPUTS/1mg2mn_ecoli_23s_Modified_ecoli_23s_april23_2021_mutation_counts.txt" 
 
 3) the output of the amplified prediction script is four arff files that, along with the model files, constitute the inputs for the Weka step.
 
@@ -72,6 +72,6 @@ mkdir ordered_predictions
 
 cd ordered_predictions
 
-Rscript ../output_reordering.R "../sample_5.8S_rRNA_data_input_and_output/output_reordering_script_INPUTS/prac_5_8_adenine_amppred.arff" "../sample_5.8S_rRNA_data_input_and_output/output_reordering_script_INPUTS/prac_5_8_cytosine_amppred_acc.arff" "../sample_5.8S_rRNA_data_input_and_output/output_reordering_script_INPUTS/prac_5_8_guanine_amppred_acc.arff" "../sample_5.8S_rRNA_data_input_and_output/output_reordering_script_INPUTS/prac_5_8_uracil_amppred_acc.arff" "../sample_5.8S_rRNA_data_input_and_output/amplified_predictions_script_INPUTS/Amplified-TRNA-Huh-5_8S_5_8_profile.txt"
+Rscript ../output_reordering.R "../sample_ecoli_23s_input_and_output/output_reordering_script_INPUTS/23S_As.arff" "../sample_ecoli_23s_input_and_output/output_reordering_script_INPUTS/23S_Cs.arff" "../sample_ecoli_23s_input_and_output/output_reordering_script_INPUTS/23S_Gs.arff" "../sample_ecoli_23s_input_and_output/output_reordering_script_INPUTS/23S_Us.arff" "../sample_ecoli_23s_input_and_output/amplified_predictions_script_INPUTS/1mg2mn_ecoli_23s_ecoli_23s_april23_2021_profile.txt"
 
 12) the output for the ‘output reordering’ script is a single csv file with nucleotide positions and the predicted modification status.
