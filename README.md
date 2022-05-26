@@ -72,6 +72,6 @@ mkdir ordered_predictions
 
 cd ordered_predictions
 
-Rscript ../output_reordering.R "../sample_ecoli_23s_input_and_output/output_reordering_script_INPUTS/23S_As.arff" "../sample_ecoli_23s_input_and_output/output_reordering_script_INPUTS/23S_Cs.arff" "../sample_ecoli_23s_input_and_output/output_reordering_script_INPUTS/23S_Gs.arff" "../sample_ecoli_23s_input_and_output/output_reordering_script_INPUTS/23S_Us.arff" "../sample_ecoli_23s_input_and_output/amplified_predictions_script_INPUTS/1mg2mn_ecoli_23s_ecoli_23s_april23_2021_profile.txt"
+Rscript ../output_reordering.R "../sample_ecoli_23s_input_and_output/output_reordering_script_INPUTS/23S_As.arff" "../sample_ecoli_23s_input_and_output/output_reordering_script_INPUTS/23S_Cs.arff" "../sample_ecoli_23s_input_and_output/output_reordering_script_INPUTS/23S_Gs.arff" "../sample_ecoli_23s_input_and_output/output_reordering_script_INPUTS/23S_Us_cost.arff" "../sample_ecoli_23s_input_and_output/amplified_predictions_script_INPUTS/1mg2mn_ecoli_23s_ecoli_23s_april23_2021_profile.txt"
 
 12) the output for the ‘output reordering’ script is a single csv file with nucleotide positions and the predicted modification status.
