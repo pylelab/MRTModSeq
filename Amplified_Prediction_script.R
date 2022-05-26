@@ -7,10 +7,10 @@ if (length(args)<1){
     cat("    untreated_counts.txt - Mg2+ mutation file from ShapeMapper --counted output\n")  
     cat("    modified_counts.txt  - Mn2+ mutation file from ShapeMapper --counted output\n")  
     cat("\nOutput:\n")
-    cat("    predict_5_8_adenines_amp.arff  - WEKA format feature file for A\n")
-    cat("    predict_5_8_cytosines_amp.arff - WEKA format feature file for C\n")
-    cat("    predict_5_8_guanine_amp.arff   - WEKA format feature file for G\n")
-    cat("    predict_5_8_uracils_amp.arff   - WEKA format feature file for U\n")
+    cat("    predict_adenines_amp.arff  - WEKA format feature file for A\n")
+    cat("    predict_cytosines_amp.arff - WEKA format feature file for C\n")
+    cat("    predict_guanine_amp.arff   - WEKA format feature file for G\n")
+    cat("    predict_uracils_amp.arff   - WEKA format feature file for U\n")
     quit()
 }
 
@@ -183,9 +183,9 @@ modsq_uracils <- rep("?", length(cumdf_uracils_fin$Mn_rate))
 
 sars2_u <- cbind(cumdf_uracils_fin, modsq_uracils) %>% rename('Modifications'='modsq_uracils')
 sars2_u$Modifications <- as.factor(sars2_u$Modifications)
-write.arff(sars2_u, file = "predict_5_8_uracils_amp.arff")
+write.arff(sars2_u, file = "predict_uracils_amp.arff")
 
-tx <- readLines("predict_5_8_uracils_amp.arff")
+tx <- readLines("predict_uracils_amp.arff")
 for (i in 1:length(tx)) {
   if (substr(tx[i],1,24)== "@attribute Modifications") {
     tx_line15 <- gsub(pattern = "'\\?'", replace = "none,pU,Um", x = tx[i])
@@ -195,7 +195,7 @@ for (i in 1:length(tx)) {
 }
 tx3 <- gsub(pattern = "'", replace = "", x = tx)
 
-writeLines(tx3, "predict_5_8_uracils_amp.arff")
+writeLines(tx3, "predict_uracils_amp.arff")
 
 #Now, for cytosines
 cumdf_cytosines <- cumdf %>% filter(Sequence == 'C') %>% select(-('Mn_-C')) %>% select(-starts_with('Mn_A')) %>% 
@@ -214,9 +214,9 @@ modsq_cytosines <- rep("?", length(cumdf_cytosines_fin$Mn_rate))
 
 sars2_c <- cbind(cumdf_cytosines_fin, modsq_cytosines) %>% rename('Modifications'='modsq_cytosines')
 sars2_c$Modifications <- as.factor(sars2_c$Modifications)
-write.arff(sars2_c, file = "predict_5_8_cytosines_amp.arff")
+write.arff(sars2_c, file = "predict_cytosines_amp.arff")
 
-tx <- readLines("predict_5_8_cytosines_amp.arff")
+tx <- readLines("predict_cytosines_amp.arff")
 for (i in 1:length(tx)) {
   if (substr(tx[i],1,24)== "@attribute Modifications") {
     tx_line15 <- gsub(pattern = "'\\?'", replace = "Cm,none", x = tx[i])
@@ -226,7 +226,7 @@ for (i in 1:length(tx)) {
 }
 tx3 <- gsub(pattern = "'", replace = "", x = tx)
 
-writeLines(tx3, "predict_5_8_cytosines_amp.arff")
+writeLines(tx3, "predict_cytosines_amp.arff")
 
 #Now, for guanines
 cumdf_guanine <- cumdf %>% filter(Sequence == 'G') %>% select(-('Mn_-G')) %>% select(-starts_with('Mn_A')) %>% 
@@ -246,9 +246,9 @@ modsq_guanine <- rep("?", length(cumdf_guanine_fin$Mn_rate))
 sars2_g <- cbind(cumdf_guanine_fin, modsq_guanine) %>% rename('Modifications'='modsq_guanine')
 
 sars2_g$Modifications <- as.factor(sars2_g$Modifications)
-write.arff(sars2_g, file = "predict_5_8_guanine_amp.arff")
+write.arff(sars2_g, file = "predict_guanine_amp.arff")
 
-tx <- readLines("predict_5_8_guanine_amp.arff")
+tx <- readLines("predict_guanine_amp.arff")
 for (i in 1:length(tx)) {
   if (substr(tx[i],1,24)== "@attribute Modifications") {
     tx_line15 <- gsub(pattern = "'\\?'", replace = "Gm,none", x = tx[i])
@@ -258,7 +258,7 @@ for (i in 1:length(tx)) {
 }
 tx3 <- gsub(pattern = "'", replace = "", x = tx)
 
-writeLines(tx3, "predict_5_8_guanine_amp.arff")
+writeLines(tx3, "predict_guanine_amp.arff")
 
 #Now, for adenines
 cumdf_adenine <- cumdf %>% filter(Sequence == 'A') %>% select(-('Mn_-A')) %>% select(-starts_with('Mn_G')) %>% 
@@ -278,9 +278,9 @@ modsq_adenine <- rep("?", length(cumdf_adenine_fin$Mn_rate))
 sars2_a <- cbind(cumdf_adenine_fin, modsq_adenine) %>% rename('Modifications'='modsq_adenine')
 sars2_a$Modifications <- as.factor(sars2_a$Modifications)
 
-write.arff(sars2_a, file = "predict_5_8_adenines_amp.arff")
+write.arff(sars2_a, file = "predict_adenines_amp.arff")
 
-tx <- readLines("predict_5_8_adenines_amp.arff")
+tx <- readLines("predict_adenines_amp.arff")
 for (i in 1:length(tx)) {
   if (substr(tx[i],1,24)== "@attribute Modifications") {
     tx_line15 <- gsub(pattern = "'\\?'", replace = "Am,none", x = tx[i])
@@ -290,4 +290,4 @@ for (i in 1:length(tx)) {
 }
 tx3 <- gsub(pattern = "'", replace = "", x = tx)
 
-writeLines(tx3, "predict_5_8_adenines_amp.arff")
+writeLines(tx3, "predict_adenines_amp.arff")
