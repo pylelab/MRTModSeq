@@ -1,6 +1,5 @@
 ---
 title: "Amplified Prediction Script"
-author: "Gandhar Mahadeshwar"
 output: html_notebook
 ---
 
@@ -11,22 +10,15 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-library(readxl)
-library(MASS)
-library(tidyverse)
-library(dplyr)
-library(grid)
-library(RWeka)
-library(dplyr)
+library(dplyr,warn.conflicts = FALSE)
 library(foreign)
 ```
 
 File intake.
 ```{r}
-profile <- read.table("../../../ModSeq data submission/sample 5.8S rRNA data input and output/amplified_predictions_script INPUTS/Amplified-TRNA-Huh-5_8S_5_8_profile.txt", header = TRUE)
-unt_mutation_counts <- read.table("../../../ModSeq data submission/sample 5.8S rRNA data input and output/amplified_predictions_script INPUTS/Amplified-TRNA-Huh-5_8S_Untreated_5_8_mutation_counts.txtt", header = TRUE)
-unt_mutation_counts <- read.table("../../../ModSeq data submission/sample 5.8S rRNA data input and output/amplified_predictions_script INPUTS/Amplified-TRNA-Huh-5_8S_Untreated_5_8_mutation_counts.txt", header = TRUE)
-mod_mutation_counts <- read.table("../../../ModSeq data submission/sample 5.8S rRNA data input and output/amplified_predictions_script INPUTS/Amplified-TRNA-Huh-5_8S_Modified_5_8_mutation_counts.txt", header = TRUE)
+profile <- read.table("~/Desktop/23S Results/1mg2mn_ecoli_23s/1mg2mn_ecoli_23s_ecoli_23s_april23_2021_profile.txt", header = TRUE)
+unt_mutation_counts <- read.table("~/Desktop/23S Results/1mg2mn_ecoli_23s/1mg2mn_ecoli_23s_Untreated_ecoli_23s_april23_2021_mutation_counts.txt", header = TRUE)
+mod_mutation_counts <- read.table("~/Desktop/23S Results/1mg2mn_ecoli_23s/1mg2mn_ecoli_23s_Modified_ecoli_23s_april23_2021_mutation_counts.txt", header = TRUE)
 ```
 
 We make two new columns for raw "correct" counts (unmutated).
@@ -189,8 +181,8 @@ cumdf
 
 Separate into four datasets by nucleotide type.
 ```{r}
+#Separate into four datasets by nucleotide type.
 tmpa <- cumdf %>% filter(Sequence == 'A')
-#view(tmpa)
 tmpu <- cumdf %>% filter(Sequence == 'U')
 tmpc <- cumdf %>% filter(Sequence == 'C')
 tmpg <- cumdf %>% filter(Sequence == 'G')
@@ -222,17 +214,20 @@ cumdf_uracils_fin <- cumdf_uracils%>% select(-ends_with('depth')) %>% select(-en
 modsq_uracils <- rep("?", length(cumdf_uracils_fin$Mn_rate))
 
 sars2_u <- cbind(cumdf_uracils_fin, modsq_uracils) %>% rename('Modifications'='modsq_uracils')
-#write.csv(sars2_u, file = "predict_RN7SK_uracils_amp.csv", row.names = FALSE)
 sars2_u$Modifications <- as.factor(sars2_u$Modifications)
-write.arff(sars2_u, file = "predict_5_8_uracils_amp.arff")
+write.arff(sars2_u, file = "predict_uracils_amp.arff")
 
-tx <- readLines("predict_5_8_uracils_amp.arff")
-tx_line15 <- gsub(pattern = "'\\?'", replace = "none,pU,Um", x = tx[15])
-tx2 <- tx
-tx2[15] <- tx_line15
-tx3 <- gsub(pattern = "'", replace = "", x = tx2)
+tx <- readLines("predict_uracils_amp.arff")
+for (i in 1:length(tx)) {
+  if (substr(tx[i],1,24)== "@attribute Modifications") {
+    tx_line15 <- gsub(pattern = "'\\?'", replace = "none,pU,Um", x = tx[i])
+    tx[i] <- tx_line15
+    break
+  }
+}
+tx3 <- gsub(pattern = "'", replace = "", x = tx)
 
-writeLines(tx3, "predict_5_8_uracils_amp.arff")
+writeLines(tx3, "predict_uracils_amp.arff")
 ```
 
 Now, for cytosines
@@ -252,17 +247,20 @@ cumdf_cytosines_fin <- cumdf_cytosines%>% select(-ends_with('depth')) %>% select
 modsq_cytosines <- rep("?", length(cumdf_cytosines_fin$Mn_rate))
 
 sars2_c <- cbind(cumdf_cytosines_fin, modsq_cytosines) %>% rename('Modifications'='modsq_cytosines')
-#write.csv(sars2_c, file = "predict_RN7SK_cytosines_amp.csv", row.names = FALSE)
 sars2_c$Modifications <- as.factor(sars2_c$Modifications)
-write.arff(sars2_c, file = "predict_5_8_cytosines_amp.arff")
+write.arff(sars2_c, file = "predict_cytosines_amp.arff")
 
-tx <- readLines("predict_5_8_cytosines_amp.arff")
-tx_line15 <- gsub(pattern = "'\\?'", replace = "none,Cm", x = tx[15])
-tx2 <- tx
-tx2[15] <- tx_line15
-tx3 <- gsub(pattern = "'", replace = "", x = tx2)
+tx <- readLines("predict_cytosines_amp.arff")
+for (i in 1:length(tx)) {
+  if (substr(tx[i],1,24)== "@attribute Modifications") {
+    tx_line15 <- gsub(pattern = "'\\?'", replace = "Cm,none", x = tx[i])
+    tx[i] <- tx_line15
+    break
+  }
+}
+tx3 <- gsub(pattern = "'", replace = "", x = tx)
 
-writeLines(tx3, "predict_5_8_cytosines_amp.arff")
+writeLines(tx3, "predict_cytosines_amp.arff")
 ```
 
 Now, for guanines
@@ -284,15 +282,19 @@ modsq_guanine <- rep("?", length(cumdf_guanine_fin$Mn_rate))
 sars2_g <- cbind(cumdf_guanine_fin, modsq_guanine) %>% rename('Modifications'='modsq_guanine')
 
 sars2_g$Modifications <- as.factor(sars2_g$Modifications)
-write.arff(sars2_g, file = "predict_5_8_guanine_amp.arff")
+write.arff(sars2_g, file = "predict_guanine_amp.arff")
 
-tx <- readLines("predict_5_8_guanine_amp.arff")
-tx_line15 <- gsub(pattern = "'\\?'", replace = "none,Gm", x = tx[15])
-tx2 <- tx
-tx2[15] <- tx_line15
-tx3 <- gsub(pattern = "'", replace = "", x = tx2)
+tx <- readLines("predict_guanine_amp.arff")
+for (i in 1:length(tx)) {
+  if (substr(tx[i],1,24)== "@attribute Modifications") {
+    tx_line15 <- gsub(pattern = "'\\?'", replace = "Gm,none", x = tx[i])
+    tx[i] <- tx_line15
+    break
+  }
+}
+tx3 <- gsub(pattern = "'", replace = "", x = tx)
 
-writeLines(tx3, "predict_5_8_guanine_amp.arff")
+writeLines(tx3, "predict_guanine_amp.arff")
 ```
 
 Now, for adenines
@@ -314,13 +316,17 @@ modsq_adenine <- rep("?", length(cumdf_adenine_fin$Mn_rate))
 sars2_a <- cbind(cumdf_adenine_fin, modsq_adenine) %>% rename('Modifications'='modsq_adenine')
 sars2_a$Modifications <- as.factor(sars2_a$Modifications)
 
-write.arff(sars2_a, file = "predict_5_8_adenines_amp.arff")
+write.arff(sars2_a, file = "predict_adenines_amp.arff")
 
-tx <- readLines("predict_5_8_adenines_amp.arff")
-tx_line15 <- gsub(pattern = "'\\?'", replace = "none,Am", x = tx[15])
-tx2 <- tx
-tx2[15] <- tx_line15
-tx3 <- gsub(pattern = "'", replace = "", x = tx2)
+tx <- readLines("predict_adenines_amp.arff")
+for (i in 1:length(tx)) {
+  if (substr(tx[i],1,24)== "@attribute Modifications") {
+    tx_line15 <- gsub(pattern = "'\\?'", replace = "Am,none", x = tx[i])
+    tx[i] <- tx_line15
+    break
+  }
+}
+tx3 <- gsub(pattern = "'", replace = "", x = tx)
 
-writeLines(tx3, "predict_5_8_adenines_amp.arff")
+writeLines(tx3, "predict_adenines_amp.arff")
 ```
