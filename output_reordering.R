@@ -43,6 +43,7 @@ pred_As <- cbind(rep("A", length(cumdf_adenine_nuc)), cumdf_adenine_nuc, As %>%
   rename(seq = 'rep("A", length(cumdf_adenine_nuc))')
 pred_As$`predicted Modifications` <- as.character(pred_As$`predicted Modifications`)
 pred_As$`predicted Modifications`[wc_cutoff_A] <- "m1A"
+pred_As$`prediction margin`[wc_cutoff_A] <- "n/a"
 
 pred_Cs <- cbind(rep("C", length(cumdf_cytosines_nuc)), cumdf_cytosines_nuc, Cs %>%
                    select(starts_with("predict"))) %>% rename(cumdf_nuc = cumdf_cytosines_nuc) %>% 
@@ -54,12 +55,14 @@ pred_Gs <- cbind(rep("G", length(cumdf_guanine_nuc)), cumdf_guanine_nuc, Gs %>%
   rename(seq = 'rep("G", length(cumdf_guanine_nuc))')
 pred_Gs$`predicted Modifications` <- as.character(pred_Gs$`predicted Modifications`)
 pred_Gs$`predicted Modifications`[wc_cutoff_G] <- "m7G"
+pred_Gs$`prediction margin`[wc_cutoff_G] <- "n/a"
 
 pred_Us <- cbind(rep("U", length(cumdf_uracils_nuc)), cumdf_uracils_nuc, Us %>% 
                    select(starts_with("predict"))) %>% rename(cumdf_nuc = cumdf_uracils_nuc) %>% 
   rename(seq = 'rep("U", length(cumdf_uracils_nuc))')
 pred_Us$`predicted Modifications` <- as.character(pred_Us$`predicted Modifications`)
 pred_Us$`predicted Modifications`[wc_cutoff_U] <- "m3U or m1acp3Y"
+pred_Us$`prediction margin`[wc_cutoff_U] <- "n/a"
 
 
 unordered <- rbind(pred_As, pred_Cs, pred_Gs, pred_Us)
